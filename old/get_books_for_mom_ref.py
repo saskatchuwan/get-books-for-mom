@@ -10,8 +10,9 @@ import time
 import sys
 
 
+
 HOMEPAGE = 'http://tw.zhsxs.com/'
-DOWNLOAD_BATCH_SIZE = 2
+DOWNLOAD_BATCH_SIZE = 1
 CUSTOM_DELIMITER = "$$"
 
 # This value gets changed and the only reason why it's global is because 
