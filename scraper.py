@@ -27,8 +27,30 @@ def get_links_to_chapters(url):
 
 def get_beautiful_soup_html(url):
   headers = proxy.get_headers()
-  response = requests.get(url, headers=headers)
+  proxies = proxy.get_proxies()
+
+  successful = False
+  attempt = 1
+  response = None
+
+  while successful == False and attempt <= 50:
+    try:
+      print("Request #%d"%attempt)
+
+      attempt += 1
+      response = requests.get(url, headers=headers, proxies=proxies, timeout=3)
+      # print(response.text)
+      successful = True
+    except:
+      headers = proxy.get_headers()
+      proxies = proxy.get_proxies()
+      print("Skipping. Connnection error")
+
   return BeautifulSoup(response.text, "html.parser")
 
 def div_with_content(div):
   return len(div.findAll('p')) > 0
+
+
+if __name__ == "__main__":
+    print(get_beautiful_soup_html('http://tw.zhsxs.com/'))

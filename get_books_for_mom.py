@@ -9,7 +9,7 @@ import sys
 import scraper
 
 HOMEPAGE = 'http://tw.zhsxs.com/'
-DOWNLOAD_BATCH_SIZE = 1
+DOWNLOAD_BATCH_SIZE = 2
 CUSTOM_DELIMITER = "$$"
 
 # This value gets changed and the only reason why it's global is because 
@@ -22,8 +22,6 @@ def parse_and_save_as_text(url_with_index):
   time.sleep(1.0 + random.random())	
 
   url, index = url_with_index.split(CUSTOM_DELIMITER)
-  index = int(index) + 318
-  index = str(index)
 
   # REQUEST
   article = scraper.get_beautiful_soup_html(url)
