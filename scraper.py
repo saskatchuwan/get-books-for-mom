@@ -37,6 +37,9 @@ def get_beautiful_soup_html(url):
     try:
       print("Request #%d"%attempt)
 
+      print(headers)
+      print(proxies)
+
       attempt += 1
       response = requests.get(url, headers=headers, proxies=proxies, timeout=3)
       # print(response.text)
@@ -47,6 +50,11 @@ def get_beautiful_soup_html(url):
       print("Skipping. Connnection error")
 
   return BeautifulSoup(response.text, "html.parser")
+
+  # time.sleep(random.random() * 5 + 1.0)
+	# user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_9_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/35.0.1916.47 Safari/537.36'
+	# response = requests.get(url, headers={'User-Agent': user_agent})
+	# return BeautifulSoup(response.text, 'html.parser')
 
 def div_with_content(div):
   return len(div.findAll('p')) > 0

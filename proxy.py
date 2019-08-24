@@ -17,8 +17,8 @@ def get_proxies():
     proxies = get_list_of_proxies()
     random_proxy = random.sample(proxies, 1)[0]
     proxy_dict = { 
-              "http"  : random_proxy, 
-              "https" : random_proxy
+              "http"  : "http://"+random_proxy, 
+              "https" : "https://"+random_proxy
             }
     return proxy_dict
 

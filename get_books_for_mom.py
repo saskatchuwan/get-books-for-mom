@@ -9,7 +9,7 @@ import sys
 import scraper
 
 HOMEPAGE = 'http://tw.zhsxs.com/'
-DOWNLOAD_BATCH_SIZE = 2
+DOWNLOAD_BATCH_SIZE = 1
 CUSTOM_DELIMITER = "$$"
 
 # This value gets changed and the only reason why it's global is because 
@@ -52,7 +52,7 @@ if __name__ == "__main__":
     sys.exit(1)
 
   title = scraper.get_book_title(book_index_link)
-  print('got title={}'.format(title))
+  # print('got title={}'.format(title))
 
   # Make a directory for the book
   OUTPUT_DIRECTORY = os.path.join("./", title)
