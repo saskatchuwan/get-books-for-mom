@@ -2,7 +2,7 @@ import random
 import requests
 from bs4 import BeautifulSoup
 import user_agents
-
+import time
 
 def get_headers():
     headers = {
@@ -43,6 +43,3 @@ def get_list_of_proxies():
 def get_random_user_agent():
     return random.choice(user_agents.useragents)
 
-
-if __name__ == "__main__":
-    print(get_proxies())
