@@ -8,7 +8,7 @@ import sys
 
 import scraper
 
-HOMEPAGE = 'http://tw.zhsxs.com/'
+HOMEPAGES = ['http://tw.zhsxs.com/', 'https://tw.bsxsw.com/']
 DOWNLOAD_BATCH_SIZE = 1
 CUSTOM_DELIMITER = "$$"
 
@@ -32,33 +32,41 @@ def parse_and_save_as_text(url_with_index):
   filename = index_prefix + article_title + ".txt"
   file_path = os.path.join(OUTPUT_DIRECTORY, filename)
 
-  
-  all_divs = article.findAll('div')
+
   with open(file_path, 'w') as f:
-    for div in all_divs:
-      # Look for div containing paragraphs of text of the book
-      if scraper.div_with_content(div):
-        # When found, write only the text within the <p> tags
-        f.write(div.text)
+    if "tw.bsxsw.com" in url:
+      div_with_content = article.find('div', {'class': 'ReadContents'})
+      f.write(div_with_content.text)
+  
+    else:
+      all_divs = article.findAll('div')
+      for div in all_divs:
+        # Look for div containing paragraphs of text of the book
+        if scraper.div_with_content(div):
+          # When found, write only the text within the <p> tags
+          f.write(div.text)
+
   print("Downloading {} COMPLETE!".format(filename))
 
 
 if __name__ == "__main__":
-  # example command python get_books_for_mom.py http://tw.zhsxs.com/zhsbook/29885.html 0
+  # example command python3 get_books_for_mom.py http://tw.zhsxs.com/zhsbook/29885.html http://tw.zhsxs.com/ zhs 0
   book_index_link = sys.argv[1]
-  start_from = int(sys.argv[2])
-  if not HOMEPAGE in book_index_link:
-    print("This script only works for {}! exiting....".format(HOMEPAGE))
+  homepage = sys.argv[2]
+  prefix = sys.argv[3]
+  start_from = int(sys.argv[4])
+
+  if not homepage in HOMEPAGES:
+    print("This script only works for {}! exiting....".format(HOMEPAGES))
     sys.exit(1)
 
   title = scraper.get_book_title(book_index_link)
-  # print('got title={}'.format(title))
 
   # Make a directory for the book
   OUTPUT_DIRECTORY = os.path.join("./", title)
   os.mkdir(OUTPUT_DIRECTORY)
 
-  links_to_chapters = scraper.get_links_to_chapters(book_index_link)
+  links_to_chapters = scraper.get_links_to_chapters(book_index_link, prefix, homepage)
 
   print('links to chapters={}'.format(links_to_chapters))
   links_with_index = []
