@@ -27,6 +27,8 @@ def get_links_to_chapters(url, prefix, homepage):
   links = []
   for row in td_list:
     a = row.find('a', href=True)
+    if a == None:
+      continue
     link_suffix = a.attrs['href'] #Looks like /zhsread/29885_2639538.html
     link_suffix = link_suffix.strip("/")
     links.append(homepage + link_suffix)

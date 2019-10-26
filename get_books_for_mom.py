@@ -71,7 +71,7 @@ if __name__ == "__main__":
   print('links to chapters={}'.format(links_to_chapters))
   links_with_index = []
   for i in range(start_from, len(links_to_chapters)):
-    links_with_index.append(links_to_chapters[i] + CUSTOM_DELIMITER + str(i))
+    links_with_index.append(links_to_chapters[i] + CUSTOM_DELIMITER + str(i) + " - ")
 
   # Download all the chapters in parallel batches	
   pool = Pool(DOWNLOAD_BATCH_SIZE)
