@@ -7,11 +7,16 @@ import proxy
 
 def get_book_title(url):
   page = get_beautiful_soup_html(url)
-  print("book title page ={}".format(page))
+  # print("book title page ={}".format(page))
   h1 = None
 
   try:
-    h1 = page.find('div', {'id': 'novel_title'}).find('h1')
+    if "tw.zhsxs.com" in url:
+      h1 = page.find('div', {'id': 'novel_title'}).find('h1')
+
+    if "tw.mingzw.net" in url:
+      h1 = page.find('i', {'class': 'novel-name'})
+
   except:
     h1 = page.find('h1')
 
@@ -22,16 +27,23 @@ def get_links_to_chapters(url, prefix, homepage):
   chapter = prefix + "chapter"
   all_chapters_url = url.replace(book, chapter)
   page = get_beautiful_soup_html(all_chapters_url)
-  td_list = page.findAll('td', {'class': 'chapterlist'})
 
   links = []
-  for row in td_list:
+
+  if "tw.mingzw.net" in url:
+    link_list = page.find('div', {'class': 'content'}).find('ul').findAll('li')
+    
+  else:
+    link_list = page.findAll('td', {'class': 'chapterlist'})
+
+  for row in link_list:
     a = row.find('a', href=True)
     if a == None:
       continue
     link_suffix = a.attrs['href'] #Looks like /zhsread/29885_2639538.html
     link_suffix = link_suffix.strip("/")
     links.append(homepage + link_suffix)
+  
   return links
 
 # def get_beautiful_soup_html(url):

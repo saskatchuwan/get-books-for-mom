@@ -8,7 +8,7 @@ import sys
 
 import scraper
 
-HOMEPAGES = ['http://tw.zhsxs.com/', 'https://tw.bsxsw.com/']
+HOMEPAGES = ['http://tw.zhsxs.com/', 'https://tw.bsxsw.com/', 'http://tw.mingzw.net/']
 DOWNLOAD_BATCH_SIZE = 1
 CUSTOM_DELIMITER = "$$"
 
@@ -28,6 +28,10 @@ def parse_and_save_as_text(url_with_index):
 
   # Create output filename
   article_title = article.find('h1').text.strip()
+
+  if "tw.mingzw.net" in url:
+    article_title = article.find('div', {'class': 'novel-top2'}).find(text=True, recursive=False).strip()
+
   index_prefix = index.zfill(8) #pad leading zeros until length of 8
   filename = index_prefix + article_title + ".txt"
   file_path = os.path.join(OUTPUT_DIRECTORY, filename)
@@ -36,6 +40,10 @@ def parse_and_save_as_text(url_with_index):
   with open(file_path, 'w') as f:
     if "tw.bsxsw.com" in url:
       div_with_content = article.find('div', {'class': 'ReadContents'})
+      f.write(div_with_content.text)
+
+    if "tw.mingzw.net" in url:
+      div_with_content = article.find('div', {'class': 'content'})
       f.write(div_with_content.text)
   
     else:
@@ -50,8 +58,9 @@ def parse_and_save_as_text(url_with_index):
 
 
 if __name__ == "__main__":
-  # example command python3 get_books_for_mom.py http://tw.zhsxs.com/zhsbook/29885.html http://tw.zhsxs.com/ zhs 0
+  # example command python3 get_books_for_mom.py http://tw.zhsxs.com/zhsbook/37706.html http://tw.zhsxs.com/ zhs 0
   # example command python3 get_books_for_mom.py https://tw.bsxsw.com/bsbook/24244.html https://tw.bsxsw.com/ bs 0
+  # example command python3 get_books_for_mom.py http://tw.mingzw.net/mzwbook/27902.html http://tw.mingzw.net/ mzw 0
   book_index_link = sys.argv[1]
   homepage = sys.argv[2]
   prefix = sys.argv[3]
