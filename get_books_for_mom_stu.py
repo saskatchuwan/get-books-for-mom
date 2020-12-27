@@ -21,7 +21,7 @@ CUSTOM_DELIMITER = "$$"
 OUTPUT_DIRECTORY = "./"
 
 @retry(stop_max_attempt_number=3, wait_random_min=2000, wait_random_max=4000)
-def parse_and_save_as_text(url_with_index):
+def parse_and_save_as_text(url_with_index, book_directory):
 	# Wait for any time between 1 and 2 seconds.
   time.sleep(1.0 + random.random())	
 
@@ -47,15 +47,19 @@ def get_links_to_chapters(url, homepage):
   page = get_beautiful_soup_html(url)
 
   links = []
-  link_list = page.findAll('dl', {'class': 'chapterlist'})
+  link_list = page.find('dl', {'class': 'chapterlist'}).findAll('dd')
 
   for row in link_list:
     a = row.find('a', href=True)
+
     if a == None:
       continue
+
     link_suffix = a.attrs['href'] #Looks like /book/51514/8307322.html
+
     if a.attrs['href'] == '#':
       continue
+
     link_suffix = link_suffix.strip("/")
     links.append(homepage + link_suffix)
   
@@ -63,14 +67,7 @@ def get_links_to_chapters(url, homepage):
 
 def get_book_title(url):
   page = get_beautiful_soup_html(url)
-  h1 = None
-
-  try:
-    if "stu.la" in url:
-      h1 = page.find('div', {'class': 'btitle'})
-
-  except:
-    h1 = page.find('h1')
+  h1 = page.find('h1')
 
   return h1.text.strip()
 
@@ -81,6 +78,7 @@ def get_beautiful_soup_html(url):
   time.sleep(random.random() * 5 + 1.0)
   user_agent = proxy.get_headers()
   response = requests.get(url, headers=user_agent)
+  response.encoding = "big5"
   return BeautifulSoup(response.text, 'html.parser')
 
 if __name__ == "__main__":
