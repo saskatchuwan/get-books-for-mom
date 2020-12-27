@@ -21,7 +21,7 @@ CUSTOM_DELIMITER = "$$"
 OUTPUT_DIRECTORY = "./"
 
 @retry(stop_max_attempt_number=3, wait_random_min=2000, wait_random_max=4000)
-def parse_and_save_as_text(url_with_index, book_directory):
+def parse_and_save_as_text(url_with_index):
 	# Wait for any time between 1 and 2 seconds.
   time.sleep(1.0 + random.random())	
 
@@ -33,12 +33,14 @@ def parse_and_save_as_text(url_with_index, book_directory):
   # Create output filename
   article_title = article.find('h1').text.strip()
 
+  book_directory = article.find('title').text.split('_')[0]
+  
   index_prefix = index.zfill(8) #pad leading zeros until length of 8
   filename = index_prefix + article_title + ".txt"
-  file_path = os.path.join(OUTPUT_DIRECTORY, filename)
+  file_path = os.path.join(OUTPUT_DIRECTORY, book_directory, filename)
 
   with open(file_path, 'w') as f:
-    div_with_content = article.find('div', {'class': 'BookText'})
+    div_with_content = article.find('div', {'id': 'BookText'})
     f.write(div_with_content.text)
 
   print("Downloading {} COMPLETE!".format(filename))
