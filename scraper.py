@@ -17,6 +17,9 @@ def get_book_title(url):
     if "tw.mingzw.net" in url:
       h1 = page.find('i', {'class': 'novel-name'})
 
+    if "stu.la" in url:
+      h1 = page.find('div', {'class': 'btitle'})
+
   except:
     h1 = page.find('h1')
 
