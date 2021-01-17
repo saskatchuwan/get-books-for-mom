@@ -13,17 +13,21 @@ def get_book_title(url):
   try:
     if "tw.zhsxs.com" in url:
       h1 = page.find('div', {'id': 'novel_title'}).find('h1')
+      h1.text.strip()
 
     if "tw.mingzw.net" in url:
-      h1 = page.find('i', {'class': 'novel-name'})
+      h1 = page.find('i', {'class': 'novel-name'}).text
+      h1 = h1.strip('》').strip('《')
 
     if "stu.la" in url:
       h1 = page.find('div', {'class': 'btitle'})
+      h1.text.strip()
 
   except:
     h1 = page.find('h1')
+    h1.text.strip()
 
-  return h1.text.strip()
+  return h1
 
 def get_links_to_chapters(url, prefix, homepage):
   book = prefix + "book"

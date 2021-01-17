@@ -26,16 +26,23 @@ def parse_and_save_as_text(url_with_index):
   # REQUEST
   article = scraper.get_beautiful_soup_html(url)
 
-  # Create output filename
-  article_title = article.find('h1').text.strip()
+  article_title = None
+  book_directory = None
 
+  # Create output filename
   if "tw.mingzw.net" in url:
-    article_title = article.find('div', {'class': 'novel-top2'}).find(text=True, recursive=False).strip()
+    title = article.find('div', {'class': 'novel-top2'}).find(text=True, recursive=False).strip()
+    title = title.split('-')
+
+    article_title = title[1]
+    book_directory = title[0]
+  else:
+    article_title = article.find('h1').text.strip()
+    book_directory = article.find('title').text.split('_')[0]
 
   index_prefix = index.zfill(8) #pad leading zeros until length of 8
   filename = index_prefix + article_title + ".txt"
-  file_path = os.path.join(OUTPUT_DIRECTORY, filename)
-
+  file_path = os.path.join(OUTPUT_DIRECTORY, book_directory, filename)
 
   with open(file_path, 'w') as f:
     if "tw.bsxsw.com" in url:
