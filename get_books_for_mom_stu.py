@@ -13,7 +13,7 @@ import sys
 import proxy
 
 HOMEPAGES = ['http://www.stu.la/']
-DOWNLOAD_BATCH_SIZE = 1
+DOWNLOAD_BATCH_SIZE = 3
 CUSTOM_DELIMITER = "$$"
 
 # This value gets changed and the only reason why it's global is because 
