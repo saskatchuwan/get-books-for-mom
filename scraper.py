@@ -7,13 +7,12 @@ import proxy
 
 def get_book_title(url):
   page = get_beautiful_soup_html(url)
-  # print("book title page ={}".format(page))
   h1 = None
 
   try:
     if "tw.zhsxs.com" in url:
       h1 = page.find('div', {'id': 'novel_title'}).find('h1')
-      h1.text.strip()
+      h1 = h1.text.strip()
 
     if "tw.mingzw.net" in url:
       h1 = page.find('i', {'class': 'novel-name'}).text
@@ -21,7 +20,7 @@ def get_book_title(url):
 
     if "stu.la" in url:
       h1 = page.find('div', {'class': 'btitle'})
-      h1.text.strip()
+      h1 = h1.text.strip()
 
   except:
     h1 = page.find('h1')

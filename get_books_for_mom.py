@@ -38,7 +38,8 @@ def parse_and_save_as_text(url_with_index):
     book_directory = title[0]
   else:
     article_title = article.find('h1').text.strip()
-    book_directory = article.find('title').text.split('_')[0]
+    # book_directory = article.find('title').text.split('_')[0] #this broke.
+    book_directory = "問丹朱" # TODO: need some reference to the title of the book here, but for now, just hardcode when running script
 
   index_prefix = index.zfill(8) #pad leading zeros until length of 8
   filename = index_prefix + article_title + ".txt"
