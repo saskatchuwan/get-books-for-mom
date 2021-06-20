@@ -66,9 +66,9 @@ def parse_and_save_as_text(url_with_index):
 
 
 if __name__ == "__main__":
-  # example command python3 get_books_for_mom.py http://tw.zhsxs.com/zhsbook/37706.html http://tw.zhsxs.com/ zhs 0
-  # example command python3 get_books_for_mom.py https://tw.bsxsw.com/bsbook/24244.html https://tw.bsxsw.com/ bs 0
-  # example command python3 get_books_for_mom.py http://tw.mingzw.net/mzwbook/27902.html http://tw.mingzw.net/ mzw 0
+  # example command python3 get_books_for_mom_zhs.py http://tw.zhsxs.com/zhsbook/37706.html http://tw.zhsxs.com/ zhs 0
+  # example command python3 get_books_for_mom_zhs.py https://tw.bsxsw.com/bsbook/24244.html https://tw.bsxsw.com/ bs 0
+  # example command python3 get_books_for_mom_zhs.py http://tw.mingzw.net/mzwbook/27902.html http://tw.mingzw.net/ mzw 0
   book_index_link = sys.argv[1]
   homepage = sys.argv[2]
   prefix = sys.argv[3]
